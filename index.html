@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゲーム</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        #gameCanvas {
+            border: 1px solid #000;
+        }
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        #controls button {
+            margin: 5px;
+        }
+        #frames {
+            margin-top: 10px;
+        }
+        .frame {
+            width: 60px;
+            height: 60px;
+            display: inline-block;
+            margin: 5px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="controls">
+        <div id="coins">コイン: 0</div>
+        <div id="gems">宝石: 0</div>
+        <button id="buyBall">ボール購入 (100コイン)</button>
+        <button id="toggleMerge">マージモード: OFF</button>
+        <button id="gemShop">宝石ショップ</button>
+        <button id="upgradeBall">ボールアップグレード</button>
+        <div id="frames">
+            <!-- ボールのフレームを表示するための10個の要素はJavaScriptで動的に生成されます -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
