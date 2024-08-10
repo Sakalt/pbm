@@ -151,17 +151,25 @@ function moveBalls() {
             if (ball.x < 0) ball.x = 0;
             if (ball.y < 0) ball.y = 0;
 
+            ctx.drawImage(ball.image, ball.x, ball.y, 60, 60);
+            crushFruits(ball);
+        }
+    });
+    requestAnimationFrame(moveBalls);
+}
+
+function animateBalls() {
+    frames.forEach((ball) => {
+        if (ball) {
             // ボールのアニメーション処理（例: 回転）
             ctx.save();
             ctx.translate(ball.x + 30, ball.y + 30);
             ctx.rotate(Date.now() / 1000);
             ctx.drawImage(ball.image, -30, -30, 60, 60);
             ctx.restore();
-
-            crushFruits(ball);
         }
     });
-    requestAnimationFrame(moveBalls);
+    requestAnimationFrame(animateBalls);
 }
 
 function openGemShop() {
@@ -180,30 +188,6 @@ function upgradeBall(frameIndex) {
         alert('コインが不足しています。');
     }
 }
-
-document.getElementById('buyBall').addEventListener('click', buyBall);
-document.getElementById('toggleMerge').addEventListener('click', toggleMergeMode);
-document.getElementById('gemShop').addEventListener('click', openGemShop);
-
-document.getElementById('upgradeBall').addEventListener('click', () => {
-    const frameIndex = parseInt(prompt('アップグレードするボールのFrame Indexを入力してください (0-9):'));
-    if (!isNaN(frameIndex) && frameIndex >= 0 && frameIndex < 10) {
-        upgradeBall(frameIndex);
-    } else {
-        alert('無効なフレームインデックスです。');
-    }
-});
-
-setInterval(spawnBall, 5000);
-setInterval(spawnFruit, 7000);
-setInterval(updateFruitGrowth, 1000);
-setInterval(() => {
-    coins += 10;
-    document.getElementById('coins').innerText = `コイン: ${coins}`;
-}, 10000);
-
-moveBalls();
-drawFrames();
 
 function autoCollect() {
     frames.forEach(ball => {
@@ -227,4 +211,37 @@ function autoCollect() {
     });
 }
 
-setInterval(autoCollect, 5000);
+// フレーム要素を動的に生成
+function createFrames() {
+    const framesContainer = document.getElementById('frames');
+    for (let i = 0; i < 10; i++) {
+        const frame = document.createElement('div');
+        frame.className = 'frame';
+        frame.id = `frame${i}`;
+        framesContainer.appendChild(frame);
+    }
+}
+
+document.getElementById('buyBall').addEventListener('click', buyBall);
+document.getElementById('toggleMerge').addEventListener('click', toggleMergeMode);
+document.getElementById('gemShop').addEventListener('click', openGemShop);
+document.getElementById('upgradeBall').addEventListener('click', () => {
+    const frameIndex = parseInt(prompt('アップグレードするボールのFrame Indexを入力してください (0-9):'));
+    if (!isNaN(frameIndex) && frameIndex >= 0 && frameIndex < 10) {
+        upgradeBall(frameIndex);
+    } else {
+        alert('無効なフレームインデックスです。');
+    }
+});
+
+setInterval(spawnBall, 5000);
+setInterval(spawnFruit, 7000);
+setInterval(updateFruitGrowth, 1000);
+setInterval(() => {
+    coins += 10;
+    document.getElementById('coins').innerText = `コイン: ${coins}`;
+}, 10000);
+
+moveBalls();
+animateBalls();
+createFrames(); // フレーム要素を生成
